@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            padding: 20px;
+            text-align: left;
+        }
+        .cursor {
+            display: inline-block;
+            margin-left: -1px;
+            width: 10px;
+            height: 16px;
+            background-color: #0f0;
+            animation: blink 1s infinite step-start;
+        }
+        .linkedin-image {
+            margin-top: 20px;
+            border: 0;
+            width: 50px;
+            height: auto;
+        }
+        #easterEgg {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border: 1px solid #0f0;
+            z-index: 1000;
+        }
+        #resume {
+            cursor: pointer;
+        }
+        @keyframes blink {
+            50% { background-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <div id="resume" onclick="showEasterEgg()"></div>
+    <div id="easterEgg">
+        <pre>
+ ______________
+< Right choice :) >
+ ----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+        </pre>
+    </div>
+
+    <script>
+        const lines = [
+        "Pavel Dushichev",
+            "Senior DevOps Engineer",
+            "",
+
+            "Experience:",
+            "- Wallarm, Senior Tech Support -> DevOps Engineer, 2018-2021",
+            "- Innotech, DevOps Engineer, 2021-2021",
+            "- Slotegrator, Tech Lead DevOps Engineer, 2021-Present time",
+            "",
+            "Skills:",
+            "- CI/CD Pipelines",
+            "- Kubernetes & Docker",
+            "- Apache Kafka, Redis, RabbitMQ, ELK",
+            "- Helm Charts",
+            "- Terraform & Ansible",
+            "- Python & Bash scripting",
+            "- Technical priority planning and management",
+            "",
+            "Education:",
+            "- Moscow University for Industry and Finance Synergy, Information Technology, Bachelor's degree 2016-2020"
+        ];
+
+        let resumeDiv = document.getElementById("resume");
+        let cursorSpan = document.createElement("span");
+        cursorSpan.classList.add("cursor");
+
+        function typeChar(line, index, lineIndex) {
+            if (index < line.length) {
+                let char = document.createTextNode(line[index]);
+                resumeDiv.insertBefore(char, cursorSpan);
+                setTimeout(() => typeChar(line, index + 1, lineIndex), 50);
+            } else if (lineIndex < lines.length - 1) {
+                resumeDiv.insertBefore(document.createElement("br"), cursorSpan);
+                typeLine(lineIndex + 1);
+            } else {
+                addLinkedInImage();
+            }
+        }
+
+        function typeLine(lineIndex) {
+            if (lineIndex === 0) {
+                resumeDiv.appendChild(cursorSpan);
+            }
+            const line = lines[lineIndex];
+            if (line === "") {
+                resumeDiv.insertBefore(document.createElement("br"), cursorSpan);
+            }
+            typeChar(line, 0, lineIndex);
+        }
+
+        function addLinkedInImage() {
+            let linkedInLink = document.createElement("a");
+            linkedInLink.href = "https://www.linkedin.com/in/dushichev/";
+            linkedInLink.target = "_blank";
+            let linkedInImg = document.createElement("img");
+            linkedInImg.src = "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png";
+            linkedInImg.alt = "LinkedIn Profile";
+            linkedInImg.className = "linkedin-image";
+            linkedInLink.appendChild(linkedInImg);
+
+            resumeDiv.removeChild(cursorSpan);
+            document.body.appendChild(linkedInLink);
+            document.body.appendChild(cursorSpan);
+        }
+
+        function showEasterEgg() {
+            const easterEgg = document.getElementById("easterEgg");
+            if (easterEgg.style.display === "none") {
+                easterEgg.style.display = "block";
+            } else {
+                easterEgg.style.display = "none";
+            }
+        }
+
+        typeLine(0);
+    </script>
+</body>
+</html>
