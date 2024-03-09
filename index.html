@@ -39,20 +39,17 @@
             border: 1px solid #0f0;
             z-index: 1000;
         }
-        #resume {
-            cursor: pointer;
-        }
         @keyframes blink {
             50% { background-color: transparent; }
         }
     </style>
 </head>
 <body>
-    <div id="resume" onclick="showEasterEgg()"></div>
+    <div id="resume"></div>
     <div id="easterEgg">
         <pre>
  ______________
-< Right choice :) >
+< Правильный выбор >
  ----------------
         \   ^__^
          \  (oo)\_______
@@ -116,26 +113,21 @@
 
         function addLinkedInImage() {
             let linkedInLink = document.createElement("a");
-            linkedInLink.href = "https://www.linkedin.com/in/dushichev/";
-            linkedInLink.target = "_blank";
+            linkedInLink.href = "https://www.linkedin.com/in/dushichev/"; 
+            linkedInLink.onclick = showEasterEgg;
             let linkedInImg = document.createElement("img");
             linkedInImg.src = "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png";
             linkedInImg.alt = "LinkedIn Profile";
             linkedInImg.className = "linkedin-image";
             linkedInLink.appendChild(linkedInImg);
 
-            resumeDiv.removeChild(cursorSpan);
-            document.body.appendChild(linkedInLink);
-            document.body.appendChild(cursorSpan);
+            resumeDiv.appendChild(linkedInLink);
         }
 
-        function showEasterEgg() {
+        function showEasterEgg(event) {
+            event.preventDefault(); // Предотвратить переход по ссылке
             const easterEgg = document.getElementById("easterEgg");
-            if (easterEgg.style.display === "none") {
-                easterEgg.style.display = "block";
-            } else {
-                easterEgg.style.display = "none";
-            }
+            easterEgg.style.display = easterEgg.style.display === "none" ? "block" : "none";
         }
 
         typeLine(0);
